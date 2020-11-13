@@ -8,10 +8,18 @@ import (
 
 // Settings holds all the theme for rendering the prompt
 type Settings struct {
-	FinalSpace   bool     `json:"final_space"`
-	ConsoleTitle bool     `json:"console_title"`
-	Blocks       []*Block `json:"blocks"`
+	FinalSpace        bool     			`json:"final_space"`
+	ConsoleTitle      bool     			`json:"console_title"`
+	ConsoleTitleStyle ConsoleTitleStyle	`json:"console_title_style"`
+	Blocks            []*Block 			`json:"blocks"`
 }
+
+type ConsoleTitleStyle string
+
+const (
+	PathStyle ConsoleTitleStyle = "path"
+	FolderStyle ConsoleTitleStyle = "folder"
+)
 
 // BlockType type of block
 type BlockType string

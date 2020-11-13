@@ -42,6 +42,7 @@ type environmentInfo interface {
 	getBatteryInfo() (*battery.Battery, error)
 	getShellName() string
 	getWindowTitle(imageName, windowTitleRegex string) (string, error)
+	getCurrentFolderName() string
 }
 
 type environment struct {
@@ -65,8 +66,9 @@ func (env *environment) getcwd() string {
 	if env.cwd != "" {
 		return env.cwd
 	}
+
 	correctPath := func(pwd string) string {
-		// on Windows, and being case sentisitive and not consistent and all, this gives silly issues
+		// on Windows, and being case sensitive and not consistent and all, this gives silly issues
 		return strings.Replace(pwd, "c:", "C:", 1)
 	}
 	if env.args != nil && *env.args.PWD != "" {
@@ -193,6 +195,11 @@ func (env *environment) getShellName() string {
 	}
 	shell := strings.Replace(name, ".exe", "", 1)
 	return strings.Trim(shell, " ")
+}
+
+func (env *environment) getCurrentFolderName() string {
+	cwd := env.getcwd()
+	return filepath.Base(cwd)
 }
 
 func cleanHostName(hostName string) string {
